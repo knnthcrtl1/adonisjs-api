@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: adonis-cms-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: app
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U root']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  adonis:
+    image: node:18-alpine
+    container_name: adonis-cms-app
+    working_dir: /app
+    volumes:
+      - .:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - '3333:3333'
+    env_file:
+      - .env
+    command: >
+      sh -c "npm install && node ace migration:run && node ace serve --watch"
+
+volumes:
+  postgres_data:
