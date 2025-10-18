@@ -2,7 +2,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import User from '#models/user'
 
 export default class DashboardController {
-  async index({ auth }: HttpContext) {
+  async index({ auth, view }: HttpContext) {
     // Ensure user is authenticated
     await auth.use('web').authenticate()
 
@@ -19,20 +19,19 @@ export default class DashboardController {
 
     // Get user stats by role
     const stats = {
-      totalUsers: totalUsers[0].total,
-      activeUsers: activeUsers[0].total,
-      drivers: drivers[0].total,
-      dispatchers: dispatchers[0].total,
-      subAdmins: subAdmins[0].total,
-      admins: admins[0].total,
+      totalUsers: totalUsers[0].$extras.total,
+      activeUsers: activeUsers[0].$extras.total,
+      drivers: drivers[0].$extras.total,
+      dispatchers: dispatchers[0].$extras.total,
+      subAdmins: subAdmins[0].$extras.total,
+      admins: admins[0].$extras.total,
       recentUsers,
     }
 
-    // Return JSON response for now (since view provider is not configured)
-    return {
-      message: 'Dashboard accessed successfully',
+    // Return the rendered view
+    return view.render('admin/dashboard', {
       user: auth.user,
       stats,
-    }
+    })
   }
 }
