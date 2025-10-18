@@ -1,0 +1,252 @@
+@layout('admin/layout')
+  @section('page-title', 'Dashboard')
+    @section('content')
+      <div class="container-fluid">
+        <!-- Welcome Section -->
+        <div class="row mb-4">
+          <div class="col-12">
+            <div class="card bg-primary text-white">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <h4 class="card-title mb-1">
+                      Welcome back, {{ auth.user.fullName || auth.user.email }}!
+                    </h4>
+                    <p class="card-text mb-0">
+                      Here's what's happening with your CMS today.
+                    </p>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-chart-line fa-3x opacity-75"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row mb-4">
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                      Total Users
+                    </div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                      {{ stats.totalUsers }}
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-users fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                      Total Posts
+                    </div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                      {{ stats.totalPosts }}
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-newspaper fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                      Total Views
+                    </div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                      {{ stats.totalViews }}
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-eye fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                      Active Sessions
+                    </div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                      1
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-signal fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  Quick Actions
+                </h6>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <a href="/admin/users" class="btn btn-outline-primary btn-lg w-100">
+                      <i class="fas fa-users fa-2x d-block mb-2"></i>
+                      Manage Users
+                            </a>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <a href="/admin/posts" class="btn btn-outline-success btn-lg w-100">
+                      <i class="fas fa-newspaper fa-2x d-block mb-2"></i>
+                      Manage Posts
+                            </a>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <a href="/admin/settings" class="btn btn-outline-info btn-lg w-100">
+                      <i class="fas fa-cog fa-2x d-block mb-2"></i>
+                      Settings
+                            </a>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <a href="/admin/analytics" class="btn btn-outline-warning btn-lg w-100">
+                      <i class="fas fa-chart-bar fa-2x d-block mb-2"></i>
+                      Analytics
+                            </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  Recent Activity
+                </h6>
+              </div>
+              <div class="card-body">
+                <div class="timeline">
+                  <div class="timeline-item">
+                    <div class="timeline-marker bg-primary">
+                    </div>
+                    <div class="timeline-content">
+                      <h6 class="timeline-title">
+                        System Started
+                      </h6>
+                      <p class="timeline-text">
+                        CMS system initialized successfully
+                      </p>
+                      <small class="text-muted">Just now</small>
+                    </div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-marker bg-success">
+                    </div>
+                    <div class="timeline-content">
+                      <h6 class="timeline-title">
+                        User Login
+                      </h6>
+                      <p class="timeline-text">
+                        {{ auth.user.email }} logged in
+                      </p>
+                      <small class="text-muted">Just now</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style>
+        .border-left-primary {
+          border-left: 0.25rem solid #4e73df !important;
+        }
+        
+        .border-left-success {
+          border-left: 0.25rem solid #1cc88a !important;
+        }
+        
+        .border-left-info {
+          border-left: 0.25rem solid #36b9cc !important;
+        }
+        
+        .border-left-warning {
+          border-left: 0.25rem solid #f6c23e !important;
+        }
+        
+        .text-xs {
+          font-size: 0.7rem;
+        }
+        
+        .timeline {
+          position: relative;
+          padding-left: 30px;
+        }
+        
+        .timeline-item {
+          position: relative;
+          margin-bottom: 20px;
+        }
+        
+        .timeline-marker {
+          position: absolute;
+          left: -35px;
+          top: 5px;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+        }
+        
+        .timeline-content {
+          background: #f8f9fc;
+          padding: 15px;
+          border-radius: 5px;
+          border-left: 3px solid #e3e6f0;
+        }
+        
+        .timeline-title {
+          font-size: 0.9rem;
+          font-weight: 600;
+          margin-bottom: 5px;
+        }
+        
+        .timeline-text {
+          font-size: 0.8rem;
+          color: #5a5c69;
+          margin-bottom: 5px;
+        }
+      </style>
+    @endsection
