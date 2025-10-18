@@ -4,7 +4,7 @@ import vine from '@vinejs/vine'
 
 export default class UserManagementController {
   // List all users with filtering
-  async index({ auth, request }: HttpContext) {
+  async index({ auth, request, view }: HttpContext) {
     await auth.use('web').authenticate()
 
     const page = request.input('page', 1)
@@ -31,22 +31,23 @@ export default class UserManagementController {
     }
 
     const users = await query.paginate(page, 10)
+    const usersPaginated = users.serialize()
 
-    return {
-      users: users.data,
-      meta: users.meta,
+    return view.render('admin/users/index', {
+      users: usersPaginated.data,
+      meta: usersPaginated.meta,
       filters: { role, status, search },
-    }
+    })
   }
 
   // Show create user form
-  async create({ auth }: HttpContext) {
+  async create({ auth, view }: HttpContext) {
     await auth.use('web').authenticate()
 
-    return {
+    return view.render('admin/users/create', {
       roles: ['admin', 'sub-admin', 'dispatcher', 'driver'],
       statuses: ['active', 'inactive', 'suspended'],
-    }
+    })
   }
 
   // Store new user
@@ -70,56 +71,49 @@ export default class UserManagementController {
       // Check if user already exists
       const existingUser = await User.findBy('email', data.email)
       if (existingUser) {
-        return response.badRequest({
-          error: 'User with this email already exists',
-        })
+        session.flash('error', 'User with this email already exists')
+        return response.redirect().back()
       }
 
-      const user = await User.create({
+      await User.create({
         ...data,
         status: data.status || 'active',
       })
 
-      return response.created({
-        message: 'User created successfully',
-        user,
-      })
+      session.flash('success', 'User created successfully')
+      return response.redirect().toRoute('admin.users.index')
     } catch (error) {
-      return response.badRequest({
-        error: 'Failed to create user',
-        details: error.messages,
-      })
+      session.flash('error', 'Failed to create user')
+      return response.redirect().back()
     }
   }
 
   // Show user details
-  async show({ params, auth }: HttpContext) {
+  async show({ params, auth, view }: HttpContext) {
     await auth.use('web').authenticate()
 
     const user = await User.findOrFail(params.id)
 
-    return {
+    return view.render('admin/users/show', {
       user,
-      roles: ['admin', 'sub-admin', 'dispatcher', 'driver'],
-      statuses: ['active', 'inactive', 'suspended'],
-    }
+    })
   }
 
   // Show edit user form
-  async edit({ params, auth }: HttpContext) {
+  async edit({ params, auth, view }: HttpContext) {
     await auth.use('web').authenticate()
 
     const user = await User.findOrFail(params.id)
 
-    return {
+    return view.render('admin/users/edit', {
       user,
       roles: ['admin', 'sub-admin', 'dispatcher', 'driver'],
       statuses: ['active', 'inactive', 'suspended'],
-    }
+    })
   }
 
   // Update user
-  async update({ params, request, auth, response }: HttpContext) {
+  async update({ params, request, auth, response, session }: HttpContext) {
     await auth.use('web').authenticate()
 
     const userSchema = vine.compile(
@@ -141,9 +135,8 @@ export default class UserManagementController {
       if (data.email !== user.email) {
         const existingUser = await User.findBy('email', data.email)
         if (existingUser) {
-          return response.badRequest({
-            error: 'User with this email already exists',
-          })
+          session.flash('error', 'User with this email already exists')
+          return response.redirect().back()
         }
       }
 
@@ -156,20 +149,16 @@ export default class UserManagementController {
       user.merge(updateData)
       await user.save()
 
-      return response.ok({
-        message: 'User updated successfully',
-        user,
-      })
+      session.flash('success', 'User updated successfully')
+      return response.redirect().toRoute('admin.users.index')
     } catch (error) {
-      return response.badRequest({
-        error: 'Failed to update user',
-        details: error.messages,
-      })
+      session.flash('error', 'Failed to update user')
+      return response.redirect().back()
     }
   }
 
   // Delete user
-  async destroy({ params, auth, response }: HttpContext) {
+  async destroy({ params, auth, response, session }: HttpContext) {
     await auth.use('web').authenticate()
 
     try {
@@ -177,20 +166,17 @@ export default class UserManagementController {
 
       // Prevent admin from deleting themselves
       if (user.id === auth.user?.id) {
-        return response.badRequest({
-          error: 'You cannot delete your own account',
-        })
+        session.flash('error', 'You cannot delete your own account')
+        return response.redirect().back()
       }
 
       await user.delete()
 
-      return response.ok({
-        message: 'User deleted successfully',
-      })
+      session.flash('success', 'User deleted successfully')
+      return response.redirect().toRoute('admin.users.index')
     } catch (error) {
-      return response.badRequest({
-        error: 'Failed to delete user',
-      })
+      session.flash('error', 'Failed to delete user')
+      return response.redirect().back()
     }
   }
 
@@ -205,11 +191,11 @@ export default class UserManagementController {
     const subAdmins = await User.query().where('role', 'sub-admin').count('* as total')
 
     return {
-      totalUsers: totalUsers[0].total,
-      activeUsers: activeUsers[0].total,
-      drivers: drivers[0].total,
-      dispatchers: dispatchers[0].total,
-      subAdmins: subAdmins[0].total,
+      totalUsers: totalUsers[0].$extras.total,
+      activeUsers: activeUsers[0].$extras.total,
+      drivers: drivers[0].$extras.total,
+      dispatchers: dispatchers[0].$extras.total,
+      subAdmins: subAdmins[0].$extras.total,
     }
   }
 }

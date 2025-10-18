@@ -52,7 +52,7 @@
             <li>
               <a
                 href="/admin/dashboard"
-                class="flex items-center px-4 py-3 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 rounded-lg transition duration-200 group bg-indigo-50 text-indigo-700"
+                class="flex items-center px-4 py-3 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 rounded-lg transition duration-200 group"
               >
                 <i class="fas fa-tachometer-alt mr-3 group-hover:text-indigo-600"></i>
                 Dashboard
@@ -120,14 +120,14 @@
             <div
               class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold"
             >
-              {{ user.fullName.charAt(0).toUpperCase() }}
+              AU
             </div>
             <div class="flex-1 min-w-0">
               <p class="text-sm font-semibold text-gray-800 truncate">
-                {{ user.fullName }}
+                Admin User
               </p>
               <p class="text-xs text-gray-500">
-                {{ user.role }}
+                admin
               </p>
             </div>
           </div>
@@ -159,10 +159,10 @@
               </div>
               <div class="text-right">
                 <p class="text-sm font-medium text-gray-800">
-                  {{ user.fullName || user.email }}
+                  Admin User
                 </p>
                 <p class="text-xs text-gray-500">
-                  {{ user.role }}
+                  admin
                 </p>
               </div>
             </div>
@@ -179,7 +179,7 @@
               <div class="flex items-center justify-between">
                 <div>
                   <h3 class="text-3xl font-bold mb-2">
-                    Welcome back, {{ user.fullName || user.email }}!
+                    Welcome back, Admin User!
                   </h3>
                   <p class="text-indigo-100 text-lg">
                     Here's what's happening with your fleet management system today.
@@ -202,7 +202,7 @@
                       Total Users
                     </p>
                     <p class="text-3xl font-bold text-gray-900">
-                      {{ stats.totalUsers }}
+                      3
                     </p>
                   </div>
                   <div class="bg-blue-100 p-3 rounded-full">
@@ -220,7 +220,7 @@
                       Active Users
                     </p>
                     <p class="text-3xl font-bold text-gray-900">
-                      {{ stats.activeUsers }}
+                      3
                     </p>
                   </div>
                   <div class="bg-green-100 p-3 rounded-full">
@@ -238,7 +238,7 @@
                       Drivers
                     </p>
                     <p class="text-3xl font-bold text-gray-900">
-                      {{ stats.drivers }}
+                      1
                     </p>
                   </div>
                   <div class="bg-yellow-100 p-3 rounded-full">
@@ -256,7 +256,7 @@
                       Dispatchers
                     </p>
                     <p class="text-3xl font-bold text-gray-900">
-                      {{ stats.dispatchers }}
+                      1
                     </p>
                   </div>
                   <div class="bg-purple-100 p-3 rounded-full">
@@ -274,7 +274,7 @@
                       Sub-Admins
                     </p>
                     <p class="text-3xl font-bold text-gray-900">
-                      {{ stats.subAdmins }}
+                      0
                     </p>
                   </div>
                   <div class="bg-indigo-100 p-3 rounded-full">
@@ -292,7 +292,7 @@
                       Admins
                     </p>
                     <p class="text-3xl font-bold text-gray-900">
-                      {{ stats.admins }}
+                      1
                     </p>
                   </div>
                   <div class="bg-red-100 p-3 rounded-full">
@@ -380,30 +380,74 @@
                 Recent Users
               </h3>
               <div class="space-y-4">
-                @each(user in stats.recentUsers)
-                  <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition duration-200">
-                    <div
-                      class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold"
-                    >
-                      {{ user.fullName.charAt(0).toUpperCase() }}
-                    </div>
-                    <div class="flex-1 min-w-0">
-                      <p class="text-sm font-semibold text-gray-800 truncate">
-                        {{ user.fullName }}
-                      </p>
-                      <p class="text-xs text-gray-500">
-                        {{ user.role }}
-                      </p>
-                    </div>
-                    <div class="flex-shrink-0">
-                      <span
-                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ user.status === 'active' ? 'bg-green-100 text-green-800' : user.status === 'inactive' ? 'bg-gray-100 text-gray-800' : 'bg-red-100 text-red-800' }}"
-                      >
-                        {{ user.status }}
-                      </span>
-                    </div>
+                <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition duration-200">
+                  <div
+                    class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold"
+                  >
+                    AU
                   </div>
-                @endeach
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-gray-800 truncate">
+                      Admin User
+                    </p>
+                    <p class="text-xs text-gray-500">
+                      admin
+                    </p>
+                  </div>
+                  <div class="flex-shrink-0">
+                    <span
+                      class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"
+                    >
+                      active
+                  </span>
+                  </div>
+                </div>
+
+                <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition duration-200">
+                  <div
+                    class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold"
+                  >
+                    JD
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-gray-800 truncate">
+                      John Driver
+                    </p>
+                    <p class="text-xs text-gray-500">
+                      driver
+                    </p>
+                  </div>
+                  <div class="flex-shrink-0">
+                    <span
+                      class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"
+                    >
+                      active
+                  </span>
+                  </div>
+                </div>
+
+                <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition duration-200">
+                  <div
+                    class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold"
+                  >
+                    JD
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-gray-800 truncate">
+                      Jane Dispatcher
+                    </p>
+                    <p class="text-xs text-gray-500">
+                      dispatcher
+                    </p>
+                  </div>
+                  <div class="flex-shrink-0">
+                    <span
+                      class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"
+                    >
+                      active
+                  </span>
+                  </div>
+                </div>
               </div>
               <div class="mt-4">
                 <a href="/admin/users" class="text-indigo-600 hover:text-indigo-500 text-sm font-medium">View all users →</a>

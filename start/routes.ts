@@ -31,8 +31,10 @@ router
         router.post('/logout', '#controllers/auth_controller.logout')
 
         // User Management Routes
-        router.resource('users', '#controllers/admin/user_management_controller')
-        router.get('/users/stats', '#controllers/admin/user_management_controller.stats')
+        router.resource('users', '#controllers/admin/user_management_controller').as('admin.users')
+        router
+          .get('/users/stats', '#controllers/admin/user_management_controller.stats')
+          .as('admin.users.stats')
       })
       .use(middleware.auth({ guards: ['web'] }))
   })
