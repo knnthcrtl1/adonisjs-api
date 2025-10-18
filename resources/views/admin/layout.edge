@@ -8,120 +8,99 @@
       - TRIC CMS
     </title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com">
+
+    </script>
     <!-- Font Awesome -->
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       rel="stylesheet"
     />
-
-    <style>
-      .sidebar {
-        min-height: 100vh;
-        background-color: #343a40;
-      }
-      
-      .sidebar .nav-link {
-        color: #adb5bd;
-        padding: 0.75rem 1rem;
-      }
-      
-      .sidebar .nav-link:hover {
-        color: #fff;
-        background-color: #495057;
-      }
-      
-      .sidebar .nav-link.active {
-        color: #fff;
-        background-color: #495057;
-      }
-      
-      .main-content {
-        margin-left: 250px;
-      }
-      
-      @media (max-width: 768px) {
-        .main-content {
-          margin-left: 0;
-        }
-      }
-      
-      .card {
-        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-        border: 1px solid rgba(0, 0, 0, 0.125);
-      }
-    </style>
   </head>
-  <body>
-    <div class="container-fluid">
-      <div class="row">
-        <!-- Sidebar -->
-        <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
-          <div class="position-sticky pt-3">
-            <div class="text-center mb-4">
-              <h4 class="text-white">
-                TRIC CMS
-              </h4>
-            </div>
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link" href="/admin/dashboard">
-                  <i class="fas fa-tachometer-alt me-2"></i>Dashboard
-                            </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/admin/users">
-                  <i class="fas fa-users me-2"></i>Users
-                            </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/admin/posts">
-                  <i class="fas fa-newspaper me-2"></i>Posts
-                            </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/admin/settings">
-                  <i class="fas fa-cog me-2"></i>Settings
-                            </a>
-              </li>
-            </ul>
-            <hr class="text-white" />
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <form method="POST" action="/admin/logout" class="d-inline">
-                  <button type="submit" class="nav-link btn btn-link text-start w-100">
-                    <i class="fas fa-sign-out-alt me-2"></i>Logout
-                                </button>
-                </form>
-              </li>
-            </ul>
-          </div>
+  <body class="bg-gray-100">
+    <div class="flex h-screen">
+      <!-- Sidebar -->
+      <div class="w-64 bg-gray-800 text-white flex flex-col">
+        <div class="p-6">
+          <h2 class="text-xl font-bold text-center">
+            TRIC CMS
+          </h2>
+        </div>
+
+        <nav class="flex-1 px-4 pb-4">
+          <ul class="space-y-2">
+            <li>
+              <a
+                href="/admin/dashboard"
+                class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg transition duration-200"
+              >
+                <i class="fas fa-tachometer-alt mr-3"></i>
+                Dashboard
+              </a>
+            </li>
+            <li>
+              <a
+                href="/admin/users"
+                class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg transition duration-200"
+              >
+                <i class="fas fa-users mr-3"></i>
+                Users
+              </a>
+            </li>
+            <li>
+              <a
+                href="/admin/posts"
+                class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg transition duration-200"
+              >
+                <i class="fas fa-newspaper mr-3"></i>
+                Posts
+              </a>
+            </li>
+            <li>
+              <a
+                href="/admin/settings"
+                class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg transition duration-200"
+              >
+                <i class="fas fa-cog mr-3"></i>
+                Settings
+              </a>
+            </li>
+          </ul>
         </nav>
 
-        <!-- Main content -->
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
-          <div
-            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-          >
-            <h1 class="h2">
+        <div class="p-4 border-t border-gray-700">
+          <form method="POST" action="/admin/logout">
+            <button
+              type="submit"
+              class="w-full flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg transition duration-200"
+            >
+              <i class="fas fa-sign-out-alt mr-3"></i>
+              Logout
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
+          <div class="flex items-center justify-between">
+            <h1 class="text-2xl font-semibold text-gray-800">
               @!section('page-title', 'Dashboard')
             </h1>
-            <div class="btn-toolbar mb-2 mb-md-0">
-              <div class="btn-group me-2">
-                <span class="text-muted">Welcome, {{ auth.user.fullName || auth.user.email }}</span>
-              </div>
+            <div class="flex items-center space-x-4">
+              <span class="text-gray-600">Welcome, {{ auth.user.fullName || auth.user.email }}</span>
             </div>
           </div>
+        </header>
 
+        <!-- Page content -->
+        <main class="flex-1 overflow-y-auto p-6">
           @!section('content')
         </main>
       </div>
     </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
-
-    </script>
   </body>
 </html>
